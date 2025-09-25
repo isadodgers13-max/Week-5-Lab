@@ -1,0 +1,45 @@
+package cs3220.model;
+
+import java.time.Year;
+
+public class Student {
+    private String name;
+    private int session;
+    private int birthYear;
+    private String level;
+    private String time1;
+    private String time2;
+
+    public Student(String name, int session, int birthYear, String level, String time1, String time2) {
+        this.name = name;
+        this.session = session;
+        this.birthYear = birthYear;
+        this.level = level;
+        this.time1 = time1;
+        this.time2 = time2;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getSession() {
+        return session;
+    }
+
+    public int getAge() {
+        return Year.now().getValue() - birthYear;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public String getTime1() {
+        return time1;
+    }
+
+    public String getTime2() {
+        return time2;
+    }
+}
