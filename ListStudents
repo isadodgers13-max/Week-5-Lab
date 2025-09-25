@@ -1,0 +1,62 @@
+package cs3220;
+
+import cs3220.model.Student;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+
+@WebServlet("/ListStudents")
+public class ListStudents extends HttpServlet {
+
+    @Override
+    public void init() throws ServletException {
+        List<Student> students = new ArrayList<>();
+
+        // birth year = current year - age
+        int currentYear = java.time.Year.now().getValue();
+        students.add(new Student("Josh", 1, currentYear - 7, "Minnows", "10am", "9am"));
+        students.add(new Student("Eva", 1, currentYear - 6, "Minnows", "10am", "1pm"));
+        students.add(new Student("Lucy", 1, currentYear - 4, "Starfish", "1pm", "2pm"));
+        students.add(new Student("Matt", 2, currentYear - 8, "Dolphins", "9am", "2pm"));
+
+        getServletContext().setAttribute("students", students);
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        List<Student> students = (List<Student>) getServletContext().getAttribute("students");
+
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
+        out.println("<!DOCTYPE html>");
+        out.println("<html><head><title>Students</title></head><body>");
+        out.println("<h2>Students</h2>");
+        out.println("<table border='1'>");
+        out.println("<tr><th>Name</th><th>Session</th><th>Age</th><th>Level</th><th>Time (1st Choice)</th><th>Time (2nd Choice)</th></tr>");
+
+        for (Student s : students) {
+            out.println("<tr>");
+            out.println("<td>" + s.getName() + "</td>");
+            out.println("<td>" + s.getSession() + "</td>");
+            out.println("<td>" + s.getAge() + "</td>");
+            out.println("<td>" + s.getLevel() + "</td>");
+            out.println("<td>" + s.getTime1() + "</td>");
+            out.println("<td>" + s.getTime2() + "</td>");
+            out.println("</tr>");
+        }
+
+        out.println("</table>");
+        out.println("</body></html>");
+    }
+}
